@@ -1,17 +1,25 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import { generateKey, encryptMessage } from '@/utils/crypto';
 import { MessagePayload } from '@/utils/storage';
-import { Copy, Share2, MessageSquare, Sparkles, ArrowRight } from 'lucide-react';
+import { Copy, Share2, MessageSquare, Sparkles, ArrowRight, Clock } from 'lucide-react';
 
 const CreateMessage = () => {
   const [message, setMessage] = useState('');
+  const [selectedTtl, setSelectedTtl] = useState('1800'); // 30 minutes default
   const [secretLink, setSecretLink] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+
+  const ttlOptions = [
+    { value: '30', label: '30 segundos' },
+    { value: '60', label: '1 minuto' },
+    { value: '1800', label: '30 minutos' },
+    { value: '3600', label: '1 hora' }
+  ];
 
   const generateSecretLink = async () => {
     if (!message.trim()) {
@@ -29,7 +37,7 @@ const CreateMessage = () => {
       const payload: MessagePayload = {
         text: message,
         createdAt: new Date().toISOString(),
-        ttl: 86400, // 24 hours
+        ttl: parseInt(selectedTtl),
         maxViews: 1
       };
 
@@ -112,6 +120,32 @@ const CreateMessage = () => {
                 onChange={(e) => setMessage(e.target.value)}
                 className="min-h-[120px] bg-white/5 border-white/20 text-white placeholder-gray-500 resize-none font-inter rounded-xl focus:ring-2 focus:ring-white/30 focus:border-white/30"
               />
+            </div>
+
+            <div className="glass-card rounded-2xl p-6 space-y-4">
+              <div className="flex items-center space-x-2 mb-3">
+                <Clock className="w-5 h-5 text-white" />
+                <label className="block text-white font-inter font-medium text-sm">
+                  Tempo até autodestruição
+                </label>
+              </div>
+              <RadioGroup value={selectedTtl} onValueChange={setSelectedTtl} className="space-y-3">
+                {ttlOptions.map((option) => (
+                  <div key={option.value} className="flex items-center space-x-3">
+                    <RadioGroupItem
+                      value={option.value}
+                      id={option.value}
+                      className="border-white/30 text-white data-[state=checked]:bg-white data-[state=checked]:text-black"
+                    />
+                    <label
+                      htmlFor={option.value}
+                      className="text-gray-300 font-inter text-sm cursor-pointer hover:text-white transition-colors"
+                    >
+                      {option.label}
+                    </label>
+                  </div>
+                ))}
+              </RadioGroup>
             </div>
             
             <Button

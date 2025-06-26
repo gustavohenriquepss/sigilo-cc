@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { decryptMessage } from '@/utils/crypto';
@@ -10,6 +9,7 @@ import {
   markMessageDestroyed, 
   isMessageExpired 
 } from '@/utils/storage';
+import Timer from '@/components/Timer';
 import { MessageSquare, Flame, AlertTriangle, Sparkles } from 'lucide-react';
 
 interface ReadMessageProps {
@@ -20,6 +20,7 @@ interface ReadMessageProps {
 const ReadMessage: React.FC<ReadMessageProps> = ({ msgId, keyId }) => {
   const [status, setStatus] = useState<'loading' | 'success' | 'expired' | 'destroyed' | 'error'>('loading');
   const [message, setMessage] = useState('');
+  const [messagePayload, setMessagePayload] = useState<MessagePayload | null>(null);
   const [isExploding, setIsExploding] = useState(false);
 
   useEffect(() => {
@@ -54,12 +55,17 @@ const ReadMessage: React.FC<ReadMessageProps> = ({ msgId, keyId }) => {
       // Increment view count and show message
       incrementViewCount(msgId);
       setMessage(payload.text);
+      setMessagePayload(payload);
       setStatus('success');
 
     } catch (error) {
       console.error('Erro ao carregar mensagem:', error);
       setStatus('error');
     }
+  };
+
+  const handleExpire = () => {
+    setStatus('expired');
   };
 
   const destroyMessage = () => {
@@ -178,6 +184,8 @@ const ReadMessage: React.FC<ReadMessageProps> = ({ msgId, keyId }) => {
     );
   }
 
+  const expiresAt = messagePayload ? new Date(messagePayload.createdAt).getTime() + (messagePayload.ttl * 1000) : 0;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-6">
       {isExploding && (
@@ -189,7 +197,7 @@ const ReadMessage: React.FC<ReadMessageProps> = ({ msgId, keyId }) => {
         </div>
       )}
       
-      <div className="w-full max-w-lg space-y-8">
+      <div className="w-full max-w-lg space-y-6">
         <div className="text-center space-y-4">
           <div className="flex justify-center">
             <div className="p-4 glass-card rounded-2xl">
@@ -200,6 +208,13 @@ const ReadMessage: React.FC<ReadMessageProps> = ({ msgId, keyId }) => {
             Mensagem Secreta
           </h1>
         </div>
+
+        {messagePayload && (
+          <Timer 
+            expiresAt={expiresAt}
+            onExpire={handleExpire}
+          />
+        )}
 
         <div className="relative">
           <div className="glass-card rounded-2xl p-8 min-h-[140px] flex items-center justify-center">
