@@ -10,7 +10,7 @@ import {
   markMessageDestroyed, 
   isMessageExpired 
 } from '@/utils/storage';
-import { MessageSquare, Bomb, AlertTriangle } from 'lucide-react';
+import { MessageSquare, Flame, AlertTriangle, Sparkles } from 'lucide-react';
 
 interface ReadMessageProps {
   msgId: string;
@@ -84,10 +84,17 @@ const ReadMessage: React.FC<ReadMessageProps> = ({ msgId, keyId }) => {
 
   if (status === 'loading') {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
-          <p className="text-gray-400">Descriptografando mensagem...</p>
+      <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-6">
+        <div className="text-center space-y-6">
+          <div className="flex justify-center">
+            <div className="p-4 glass-card rounded-2xl">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <h2 className="text-2xl font-serif font-semibold text-white">Descriptografando</h2>
+            <p className="text-gray-400 font-inter">Decifrando sua mensagem secreta...</p>
+          </div>
         </div>
       </div>
     );
@@ -95,12 +102,23 @@ const ReadMessage: React.FC<ReadMessageProps> = ({ msgId, keyId }) => {
 
   if (status === 'expired') {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
-        <div className="text-center space-y-4">
-          <AlertTriangle className="w-16 h-16 text-yellow-500 mx-auto" />
-          <h2 className="text-2xl font-bold text-white">Mensagem Expirada</h2>
-          <p className="text-gray-400">Esta mensagem expirou e não pode mais ser lida.</p>
-          <Button onClick={createNewMessage} className="bg-green-600 hover:bg-green-700 text-white rounded-lg">
+      <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-6">
+        <div className="text-center space-y-8 max-w-md">
+          <div className="flex justify-center">
+            <div className="p-4 glass-card rounded-2xl">
+              <AlertTriangle className="w-8 h-8 text-amber-400" />
+            </div>
+          </div>
+          <div className="space-y-4">
+            <h2 className="text-3xl font-serif font-semibold text-white">Mensagem Expirada</h2>
+            <p className="text-gray-400 font-inter leading-relaxed">
+              Esta mensagem expirou e não pode mais ser acessada. Mensagens secretas têm prazo limitado por segurança.
+            </p>
+          </div>
+          <Button 
+            onClick={createNewMessage} 
+            className="bg-white text-black hover:bg-gray-100 font-inter font-medium py-3 px-8 h-auto rounded-xl elegant-button"
+          >
             Criar Nova Mensagem
           </Button>
         </div>
@@ -110,12 +128,23 @@ const ReadMessage: React.FC<ReadMessageProps> = ({ msgId, keyId }) => {
 
   if (status === 'destroyed') {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
-        <div className="text-center space-y-4">
-          <Bomb className="w-16 h-16 text-red-500 mx-auto" />
-          <h2 className="text-2xl font-bold text-white">Mensagem Destruída</h2>
-          <p className="text-gray-400">Esta mensagem já foi lida e foi destruída permanentemente.</p>
-          <Button onClick={createNewMessage} className="bg-green-600 hover:bg-green-700 text-white rounded-lg">
+      <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-6">
+        <div className="text-center space-y-8 max-w-md">
+          <div className="flex justify-center">
+            <div className="p-4 glass-card rounded-2xl">
+              <Flame className="w-8 h-8 text-red-400" />
+            </div>
+          </div>
+          <div className="space-y-4">
+            <h2 className="text-3xl font-serif font-semibold text-white">Mensagem Destruída</h2>
+            <p className="text-gray-400 font-inter leading-relaxed">
+              Esta mensagem já foi lida e foi permanentemente destruída para manter a privacidade.
+            </p>
+          </div>
+          <Button 
+            onClick={createNewMessage} 
+            className="bg-white text-black hover:bg-gray-100 font-inter font-medium py-3 px-8 h-auto rounded-xl elegant-button"
+          >
             Criar Nova Mensagem
           </Button>
         </div>
@@ -125,12 +154,23 @@ const ReadMessage: React.FC<ReadMessageProps> = ({ msgId, keyId }) => {
 
   if (status === 'error') {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
-        <div className="text-center space-y-4">
-          <AlertTriangle className="w-16 h-16 text-red-500 mx-auto" />
-          <h2 className="text-2xl font-bold text-white">Erro</h2>
-          <p className="text-gray-400">Não foi possível carregar esta mensagem. Verifique se o link está correto.</p>
-          <Button onClick={createNewMessage} className="bg-green-600 hover:bg-green-700 text-white rounded-lg">
+      <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-6">
+        <div className="text-center space-y-8 max-w-md">
+          <div className="flex justify-center">
+            <div className="p-4 glass-card rounded-2xl">
+              <AlertTriangle className="w-8 h-8 text-red-400" />
+            </div>
+          </div>
+          <div className="space-y-4">
+            <h2 className="text-3xl font-serif font-semibold text-white">Erro de Acesso</h2>
+            <p className="text-gray-400 font-inter leading-relaxed">
+              Não foi possível carregar esta mensagem. Verifique se o link está correto e completo.
+            </p>
+          </div>
+          <Button 
+            onClick={createNewMessage} 
+            className="bg-white text-black hover:bg-gray-100 font-inter font-medium py-3 px-8 h-auto rounded-xl elegant-button"
+          >
             Criar Nova Mensagem
           </Button>
         </div>
@@ -139,55 +179,63 @@ const ReadMessage: React.FC<ReadMessageProps> = ({ msgId, keyId }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-6">
       {isExploding && (
         <div className="fixed inset-0 pointer-events-none z-50">
-          <div className="absolute inset-0 bg-red-500 opacity-20 animate-pulse"></div>
+          <div className="absolute inset-0 bg-red-500/20 animate-pulse"></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div className="w-32 h-32 bg-orange-500 rounded-full animate-ping"></div>
+            <div className="w-32 h-32 bg-gradient-to-r from-red-500 to-orange-500 rounded-full animate-ping opacity-75"></div>
           </div>
         </div>
       )}
       
-      <div className="w-full max-w-md space-y-6">
-        <div className="text-center">
-          <MessageSquare className="w-12 h-12 text-green-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-white mb-2">Mensagem Secreta</h1>
+      <div className="w-full max-w-lg space-y-8">
+        <div className="text-center space-y-4">
+          <div className="flex justify-center">
+            <div className="p-4 glass-card rounded-2xl">
+              <Sparkles className="w-8 h-8 text-white" />
+            </div>
+          </div>
+          <h1 className="text-3xl font-serif font-semibold text-white text-glow">
+            Mensagem Secreta
+          </h1>
         </div>
 
         <div className="relative">
-          <div className="bg-gray-900 border border-gray-700 rounded-lg p-6 min-h-[120px] flex items-center justify-center">
-            <p className="text-white text-center whitespace-pre-wrap break-words">{message}</p>
+          <div className="glass-card rounded-2xl p-8 min-h-[140px] flex items-center justify-center">
+            <p className="text-white font-inter text-lg leading-relaxed text-center whitespace-pre-wrap break-words">
+              {message}
+            </p>
           </div>
           
           {/* Speech bubble tail */}
           <div className="absolute bottom-0 left-8 transform translate-y-full">
-            <div className="w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[10px] border-t-gray-700"></div>
+            <div className="w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[12px] border-t-white/10"></div>
           </div>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-4">
           <Button
             onClick={destroyMessage}
-            className="w-full bg-red-600 hover:bg-red-700 text-white rounded-lg"
             disabled={isExploding}
+            className="w-full bg-red-600 hover:bg-red-700 text-white font-inter font-medium py-3 h-auto rounded-xl elegant-button"
           >
-            <Bomb className="w-4 h-4 mr-2" />
-            {isExploding ? 'Destruindo...' : 'Destruir Agora'}
+            <Flame className="w-4 h-4 mr-2" />
+            {isExploding ? 'Destruindo...' : 'Destruir Mensagem'}
           </Button>
           
           <Button
             onClick={createNewMessage}
-            variant="outline"
-            className="w-full border-gray-600 text-gray-300 hover:bg-gray-800 rounded-lg"
+            variant="ghost"
+            className="w-full text-gray-400 hover:text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button"
           >
             Criar Nova Mensagem
           </Button>
         </div>
 
         <div className="text-center">
-          <p className="text-xs text-gray-500">
-            ⚠️ Esta mensagem será destruída automaticamente após ser lida
+          <p className="text-xs text-gray-500 font-inter">
+            ⚠️ Esta mensagem será destruída automaticamente após a leitura
           </p>
         </div>
       </div>

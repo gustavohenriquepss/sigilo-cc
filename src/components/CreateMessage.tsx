@@ -5,7 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { generateKey, encryptMessage } from '@/utils/crypto';
 import { MessagePayload } from '@/utils/storage';
-import { Copy, Share2, MessageSquare } from 'lucide-react';
+import { Copy, Share2, MessageSquare, Sparkles, ArrowRight } from 'lucide-react';
 
 const CreateMessage = () => {
   const [message, setMessage] = useState('');
@@ -16,7 +16,7 @@ const CreateMessage = () => {
   const generateSecretLink = async () => {
     if (!message.trim()) {
       toast({
-        title: "Erro",
+        title: "Campo obrigatório",
         description: "Digite uma mensagem antes de gerar o link secreto.",
         variant: "destructive"
       });
@@ -38,8 +38,8 @@ const CreateMessage = () => {
       
       setSecretLink(url);
       toast({
-        title: "Link secreto gerado!",
-        description: "Sua mensagem foi criptografada com sucesso."
+        title: "Link criado com sucesso",
+        description: "Sua mensagem foi criptografada e está pronta para compartilhar."
       });
     } catch (error) {
       toast({
@@ -84,49 +84,81 @@ const CreateMessage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-6">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-white mb-2">Mensagens Secretas</h1>
-          <p className="text-gray-400">Crie mensagens que se autodestroem após serem lidas</p>
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-6">
+      <div className="w-full max-w-lg space-y-8">
+        <div className="text-center space-y-4">
+          <div className="flex justify-center mb-6">
+            <div className="p-4 glass-card rounded-2xl">
+              <Sparkles className="w-8 h-8 text-white" />
+            </div>
+          </div>
+          <h1 className="text-4xl font-serif font-semibold text-white text-glow">
+            Mensagens Secretas
+          </h1>
+          <p className="text-gray-400 font-inter text-lg leading-relaxed max-w-md mx-auto">
+            Crie mensagens criptografadas que se autodestroem após serem lidas
+          </p>
         </div>
 
         {!secretLink ? (
-          <div className="space-y-4">
-            <Textarea
-              placeholder="Digite sua mensagem secreta aqui..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="min-h-[150px] bg-gray-900 border-gray-700 text-white placeholder-gray-500 resize-none"
-            />
+          <div className="space-y-6">
+            <div className="glass-card rounded-2xl p-6 space-y-4">
+              <label className="block text-white font-inter font-medium text-sm">
+                Sua mensagem secreta
+              </label>
+              <Textarea
+                placeholder="Digite aqui a mensagem que deseja compartilhar de forma segura..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="min-h-[120px] bg-white/5 border-white/20 text-white placeholder-gray-500 resize-none font-inter rounded-xl focus:ring-2 focus:ring-white/30 focus:border-white/30"
+              />
+            </div>
+            
             <Button
               onClick={generateSecretLink}
               disabled={isLoading}
-              className="w-full bg-green-600 hover:bg-green-700 text-white rounded-lg"
+              className="w-full bg-white text-black hover:bg-gray-100 font-inter font-medium py-3 h-auto rounded-xl elegant-button"
             >
-              {isLoading ? 'Gerando...' : 'Gerar Link Secreto'}
+              {isLoading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-black mr-2"></div>
+                  Gerando link...
+                </>
+              ) : (
+                <>
+                  Gerar Link Secreto
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </>
+              )}
             </Button>
           </div>
         ) : (
-          <div className="space-y-4">
-            <div className="p-4 bg-gray-900 rounded-lg border border-gray-700">
-              <p className="text-sm text-gray-400 mb-2">Seu link secreto:</p>
-              <p className="text-xs text-green-400 break-all font-mono">{secretLink}</p>
+          <div className="space-y-6">
+            <div className="glass-card rounded-2xl p-6 space-y-4">
+              <div className="flex items-center space-x-2 mb-3">
+                <MessageSquare className="w-5 h-5 text-green-400" />
+                <span className="text-white font-inter font-medium">Link secreto criado</span>
+              </div>
+              <div className="bg-black/40 rounded-xl p-4 border border-white/10">
+                <p className="text-xs text-gray-400 font-inter mb-2">Seu link criptografado:</p>
+                <p className="text-xs text-green-400 break-all font-mono leading-relaxed">{secretLink}</p>
+              </div>
             </div>
             
-            <div className="grid grid-cols-1 gap-2">
+            <div className="space-y-3">
               <Button
                 onClick={copyToClipboard}
-                className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+                className="w-full bg-white text-black hover:bg-gray-100 font-inter font-medium py-3 h-auto rounded-xl elegant-button"
               >
                 <Copy className="w-4 h-4 mr-2" />
                 Copiar Link
               </Button>
               
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-3">
                 <Button
                   onClick={shareWhatsApp}
-                  className="bg-green-600 hover:bg-green-700 text-white rounded-lg"
+                  variant="outline"
+                  className="bg-transparent border-white/20 text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button"
                 >
                   <Share2 className="w-4 h-4 mr-2" />
                   WhatsApp
@@ -134,7 +166,8 @@ const CreateMessage = () => {
                 
                 <Button
                   onClick={shareTwitter}
-                  className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
+                  variant="outline"
+                  className="bg-transparent border-white/20 text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button"
                 >
                   <Share2 className="w-4 h-4 mr-2" />
                   Twitter
@@ -144,11 +177,10 @@ const CreateMessage = () => {
 
             <Button
               onClick={createNewMessage}
-              variant="outline"
-              className="w-full border-gray-600 text-gray-300 hover:bg-gray-800 rounded-lg"
+              variant="ghost"
+              className="w-full text-gray-400 hover:text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button"
             >
-              <MessageSquare className="w-4 h-4 mr-2" />
-              Nova Mensagem
+              Criar Nova Mensagem
             </Button>
           </div>
         )}
