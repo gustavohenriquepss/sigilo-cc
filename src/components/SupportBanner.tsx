@@ -1,10 +1,17 @@
 
 import React from 'react';
 import { Heart } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from './ui/button';
 
 const SupportBanner = () => {
+  const location = useLocation();
+  
+  // Don't show banner on support page
+  if (location.pathname === '/support') {
+    return null;
+  }
+
   return (
     <div className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-white/0">
       <div className="max-w-6xl mx-auto px-4 py-3">
