@@ -10,7 +10,7 @@ import QRCode from 'qrcode';
 const Support = () => {
   const { toast } = useToast();
   const [qrCodeUrl, setQrCodeUrl] = useState('');
-  const pixKey = 'contatogustavohpss@gmail.com';
+  const pixKey = 'gustavohenriquepss@gmail.com';
 
   useEffect(() => {
     // Generate QR Code for Pix
@@ -125,7 +125,7 @@ const Support = () => {
             <div className="flex flex-col lg:flex-row gap-6 items-center">
               <div className="flex-1 space-y-4">
                 <div className="bg-black/40 rounded-xl p-4 border border-white/10">
-                  <p className="text-xs text-gray-400 font-inter mb-2">Chave Pix:</p>
+                  <p className="text-xs text-gray-400 font-inter mb-2">Chave Pix (Nubank):</p>
                   <div className="flex items-center justify-between">
                     <p className="text-sm text-green-400 font-mono">{pixKey}</p>
                     <Button 
