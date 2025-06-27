@@ -83,9 +83,8 @@ const Support = () => {
               </a>, designer de produto e criativo full-stack, com a ideia de transformar uma brincadeira em algo que possa escalar, gerar impacto e talvez até virar negócio. (ou não kkkkk)
             </p>
 
-            <p className="text-gray-400 font-inter text-sm leading-relaxed">
-              Não tem investidor, nem empresa por trás. Só um pouquinho de tempo livre, vontade, café e AI.
-            </p>
+            <p className="text-gray-400 font-inter text-sm leading-relaxed">Não tem investidor, nem empresa por trás. 
+Só um pouquinho de tempo livre, música, café e 5 créditos por dia no Lovable.</p>
 
             <p className="text-gray-400 font-inter text-sm leading-relaxed">
               Se você curtiu a proposta, pode apoiar com um Pix para ajudar a pagar o domínio e a assinatura do Lovable pra manter o projeto vivo e evoluindo.
