@@ -10,7 +10,7 @@ const CreateMessageHeader: React.FC = () => {
           <Sparkles className="w-8 h-8 text-white" />
         </div>
       </div>
-      <h1 className="text-4xl font-serif font-semibold text-white text-glow">
+      <h1 className="text-4xl font-serif text-white text-glow">
         Envie mensagens secretas
       </h1>
       <p className="text-gray-400 font-inter text-lg leading-relaxed max-w-md mx-auto">

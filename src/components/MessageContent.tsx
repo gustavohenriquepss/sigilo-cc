@@ -21,7 +21,7 @@ const MessageContent: React.FC<MessageContentProps> = ({ message, messagePayload
             <Sparkles className="w-8 h-8 text-white" />
           </div>
         </div>
-        <h1 className="text-3xl font-serif font-semibold text-white text-glow">
+        <h1 className="text-3xl font-serif text-white text-glow">
           Mensagem Secreta
         </h1>
       </div>

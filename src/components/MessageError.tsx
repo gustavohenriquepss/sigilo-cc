@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, Flame, Heart } from 'lucide-react';
@@ -43,7 +44,7 @@ const MessageError: React.FC<MessageErrorProps> = ({ type, onCreateNew }) => {
           </div>
         </div>
         <div className="space-y-4">
-          <h2 className="text-3xl font-serif font-semibold text-white">{title}</h2>
+          <h2 className="text-3xl font-serif text-white">{title}</h2>
           <p className="text-gray-400 font-inter leading-relaxed">
             {description}
           </p>

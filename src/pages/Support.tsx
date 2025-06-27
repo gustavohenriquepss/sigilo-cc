@@ -69,7 +69,7 @@ const Support = () => {
               <Heart className="w-8 h-8 text-red-400" />
             </div>
           </div>
-          <h1 className="text-4xl font-serif font-semibold text-white text-glow">
+          <h1 className="text-4xl font-serif text-white text-glow">
             Apoie esse projeto
           </h1>
         </div>
