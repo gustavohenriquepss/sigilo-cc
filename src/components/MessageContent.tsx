@@ -2,7 +2,7 @@
 import React from 'react';
 import { Sparkles } from 'lucide-react';
 import Timer from '@/components/Timer';
-import { MessagePayload, getFirstViewTime } from '@/utils/storage';
+import { MessagePayload } from '@/utils/storage';
 
 interface MessageContentProps {
   message: string;
@@ -49,9 +49,9 @@ const MessageContent: React.FC<MessageContentProps> = ({ message, messagePayload
     );
   }
 
-  // Usar o tempo do primeiro acesso para calcular expiração
-  const firstViewTime = getFirstViewTime(msgId);
-  const expiresAt = firstViewTime ? firstViewTime + (messagePayload.ttl * 1000) : Date.now() + (messagePayload.ttl * 1000);
+  // Calcular expiração baseada na criação da mensagem
+  const createdAt = new Date(messagePayload.createdAt).getTime();
+  const expiresAt = createdAt + (messagePayload.ttl * 1000);
 
   return (
     <div className="w-full max-w-lg space-y-6">

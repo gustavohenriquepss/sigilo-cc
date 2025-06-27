@@ -7,9 +7,7 @@ import {
   incrementViewCount, 
   isMessageDestroyed, 
   markMessageDestroyed, 
-  isMessageExpired,
-  getFirstViewTime,
-  setFirstViewTime
+  isMessageExpired
 } from '@/utils/storage';
 import MessageLoader from '@/components/MessageLoader';
 import MessageError from '@/components/MessageError';
@@ -51,13 +49,7 @@ const ReadMessage: React.FC<ReadMessageProps> = ({ msgId, keyId }) => {
         return;
       }
 
-      // Marcar o primeiro acesso se ainda não foi marcado
-      let firstViewTime = getFirstViewTime(msgId);
-      if (!firstViewTime) {
-        firstViewTime = setFirstViewTime(msgId);
-      }
-
-      // Check if message has expired (apenas se TTL > 0)
+      // Check if message has expired (baseado na criação)
       if (isMessageExpired(payload, msgId)) {
         setStatus('expired');
         return;

@@ -1,4 +1,3 @@
-
 // Storage utilities for tracking message views
 export interface MessagePayload {
   text: string;
@@ -129,15 +128,10 @@ export function isMessageExpired(payload: MessagePayload, msgId: string): boolea
     return false;
   }
   
-  // Verificar se a mensagem foi visualizada pela primeira vez
-  const firstViewTime = getFirstViewTime(msgId);
-  if (!firstViewTime) {
-    // Se ainda não foi visualizada, não está expirada
-    return false;
-  }
-  
+  // Calcular expiração baseada no momento da criação
+  const createdAt = new Date(payload.createdAt).getTime();
   const now = Date.now();
-  return now > (firstViewTime + payload.ttl * 1000);
+  return now > (createdAt + payload.ttl * 1000);
 }
 
 // Secure cleanup function
