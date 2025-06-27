@@ -46,16 +46,38 @@ export function validateTTL(ttl: number): { isValid: boolean; error?: string } {
 
 // Secure cleanup of sensitive data from memory
 export function secureWipe(obj: any): void {
+  if (obj === null || obj === undefined) {
+    return;
+  }
+  
   if (typeof obj === 'string') {
     // Overwrite string memory (best effort)
     for (let i = 0; i < obj.length; i++) {
       obj = obj.substring(0, i) + '\0' + obj.substring(i + 1);
     }
-  } else if (typeof obj === 'object' && obj !== null) {
+  } else if (obj instanceof Uint8Array || obj instanceof ArrayBuffer || obj instanceof Int8Array || obj instanceof Uint16Array || obj instanceof Int16Array || obj instanceof Uint32Array || obj instanceof Int32Array || obj instanceof Float32Array || obj instanceof Float64Array) {
+    // For typed arrays, fill with zeros instead of trying to delete properties
+    if (obj.fill) {
+      obj.fill(0);
+    }
+  } else if (Array.isArray(obj)) {
+    // For regular arrays, overwrite each element then clear
+    for (let i = 0; i < obj.length; i++) {
+      secureWipe(obj[i]);
+      obj[i] = null;
+    }
+    obj.length = 0;
+  } else if (typeof obj === 'object') {
+    // For regular objects, recursively wipe properties
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         secureWipe(obj[key]);
-        delete obj[key];
+        try {
+          delete obj[key];
+        } catch (error) {
+          // If delete fails, set to null as fallback
+          obj[key] = null;
+        }
       }
     }
   }
