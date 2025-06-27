@@ -23,6 +23,7 @@ const MessageForm: React.FC<MessageFormProps> = ({
   isLoading
 }) => {
   const ttlOptions = [
+    { value: '0', label: 'Sem limite de tempo' },
     { value: '30', label: '30 segundos' },
     { value: '60', label: '1 minuto' },
     { value: '1800', label: '30 minutos' },
@@ -47,7 +48,7 @@ const MessageForm: React.FC<MessageFormProps> = ({
         <div className="flex items-center space-x-2 mb-3">
           <Clock className="w-5 h-5 text-white" />
           <label className="block text-white font-inter font-medium text-sm">
-            Tempo até autodestruição
+            Tempo até autodestruição (opcional)
           </label>
         </div>
         <RadioGroup value={selectedTtl} onValueChange={setSelectedTtl} className="space-y-3">

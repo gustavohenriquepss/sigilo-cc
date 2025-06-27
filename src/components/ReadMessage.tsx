@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { decryptMessage } from '@/utils/crypto';
 import { 
@@ -6,7 +7,9 @@ import {
   incrementViewCount, 
   isMessageDestroyed, 
   markMessageDestroyed, 
-  isMessageExpired 
+  isMessageExpired,
+  getFirstViewTime,
+  setFirstViewTime
 } from '@/utils/storage';
 import MessageLoader from '@/components/MessageLoader';
 import MessageError from '@/components/MessageError';
@@ -41,16 +44,22 @@ const ReadMessage: React.FC<ReadMessageProps> = ({ msgId, keyId }) => {
       const decryptedPayload = await decryptMessage(msgId, keyId);
       const payload: MessagePayload = JSON.parse(decryptedPayload);
 
-      // Check if message has expired
-      if (isMessageExpired(payload)) {
-        setStatus('expired');
-        return;
-      }
-
       // Check view count
       const currentViews = getViewCount(msgId);
       if (currentViews >= payload.maxViews) {
         setStatus('destroyed');
+        return;
+      }
+
+      // Marcar o primeiro acesso se ainda não foi marcado
+      let firstViewTime = getFirstViewTime(msgId);
+      if (!firstViewTime) {
+        firstViewTime = setFirstViewTime(msgId);
+      }
+
+      // Check if message has expired (apenas se TTL > 0)
+      if (isMessageExpired(payload, msgId)) {
+        setStatus('expired');
         return;
       }
 
@@ -107,6 +116,7 @@ const ReadMessage: React.FC<ReadMessageProps> = ({ msgId, keyId }) => {
           <MessageContent 
             message={message}
             messagePayload={messagePayload}
+            msgId={msgId}
             onExpire={handleExpire}
           />
         )}

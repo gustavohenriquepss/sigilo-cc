@@ -10,7 +10,7 @@ import LinkSharing from './LinkSharing';
 
 const CreateMessage = () => {
   const [message, setMessage] = useState('');
-  const [selectedTtl, setSelectedTtl] = useState('1800'); // 30 minutes default
+  const [selectedTtl, setSelectedTtl] = useState('30'); // 30 segundos como padrão
   const [secretLink, setSecretLink] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -45,20 +45,23 @@ const CreateMessage = () => {
       return;
     }
 
-    // Validar TTL
     const ttlNumber = parseInt(selectedTtl);
-    const ttlValidation = validateTTL(ttlNumber);
-    if (!ttlValidation.isValid) {
-      console.error('❌ Validação do TTL falhou:', ttlValidation.error);
-      toast({
-        title: "Erro de validação",
-        description: ttlValidation.error,
-        variant: "destructive"
-      });
-      return;
+    
+    // Validar TTL apenas se não for 0 (sem limite)
+    if (ttlNumber > 0) {
+      const ttlValidation = validateTTL(ttlNumber);
+      if (!ttlValidation.isValid) {
+        console.error('❌ Validação do TTL falhou:', ttlValidation.error);
+        toast({
+          title: "Erro de validação",
+          description: ttlValidation.error,
+          variant: "destructive"
+        });
+        return;
+      }
     }
 
-    console.log('✅ Validações passaram - TTL:', ttlNumber, 'segundos');
+    console.log('✅ Validações passaram - TTL:', ttlNumber === 0 ? 'sem limite' : `${ttlNumber} segundos`);
 
     setIsLoading(true);
     try {
