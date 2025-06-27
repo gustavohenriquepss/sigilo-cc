@@ -97,12 +97,12 @@
 
   body {
     @apply bg-background text-foreground font-inter;
-    background: radial-gradient(ellipse at center, #1a1a1a 0%, #0a0a0a 100%);
+    background: radial-gradient(ellipse at center, #333333 0%, #000000 100%);
     min-height: 100vh;
   }
 
   .dark {
-    background: radial-gradient(ellipse at center, #1a1a1a 0%, #0a0a0a 100%);
+    background: radial-gradient(ellipse at center, #333333 0%, #000000 100%);
   }
 
   .font-serif {
