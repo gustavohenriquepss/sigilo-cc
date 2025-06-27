@@ -5,7 +5,10 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import { generateKey, encryptMessage } from '@/utils/crypto';
 import { MessagePayload } from '@/utils/storage';
-import { Copy, Share2, MessageSquare, Sparkles, ArrowRight, Clock } from 'lucide-react';
+import { Copy, MessageSquare, Sparkles, ArrowRight, Clock } from 'lucide-react';
+import { FaWhatsapp } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
+
 const CreateMessage = () => {
   const [message, setMessage] = useState('');
   const [selectedTtl, setSelectedTtl] = useState('1800'); // 30 minutes default
@@ -155,12 +158,12 @@ const CreateMessage = () => {
               
               <div className="grid grid-cols-2 gap-3">
                 <Button onClick={shareWhatsApp} variant="outline" className="bg-transparent border-white/20 text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button">
-                  <Share2 className="w-4 h-4 mr-2" />
+                  <FaWhatsapp className="w-4 h-4 mr-2" />
                   WhatsApp
                 </Button>
                 
                 <Button onClick={shareTwitter} variant="outline" className="bg-transparent border-white/20 text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button">
-                  <Share2 className="w-4 h-4 mr-2" />
+                  <FaXTwitter className="w-4 h-4 mr-2" />
                   Twitter
                 </Button>
               </div>
