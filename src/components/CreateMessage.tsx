@@ -9,7 +9,6 @@ import { Copy, MessageSquare, Sparkles, ArrowRight, Clock, Heart } from 'lucide-
 import { FaWhatsapp } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
-
 const CreateMessage = () => {
   const [message, setMessage] = useState('');
   const [selectedTtl, setSelectedTtl] = useState('1800'); // 30 minutes default
@@ -142,7 +141,7 @@ const CreateMessage = () => {
 
             {/* Support button */}
             <Link to="/support">
-              <Button variant="ghost" className="w-full text-gray-400 hover:text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button">
+              <Button variant="ghost" className="w-full text-gray-400 hover:text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button my-[8px]">
                 <Heart className="w-4 h-4 mr-2" />
                 Apoie esse projeto
               </Button>
