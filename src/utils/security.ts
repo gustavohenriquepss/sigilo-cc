@@ -55,11 +55,13 @@ export function secureWipe(obj: any): void {
     for (let i = 0; i < obj.length; i++) {
       obj = obj.substring(0, i) + '\0' + obj.substring(i + 1);
     }
-  } else if (obj instanceof Uint8Array || obj instanceof ArrayBuffer || obj instanceof Int8Array || obj instanceof Uint16Array || obj instanceof Int16Array || obj instanceof Uint32Array || obj instanceof Int32Array || obj instanceof Float32Array || obj instanceof Float64Array) {
-    // For typed arrays, fill with zeros instead of trying to delete properties
-    if (obj.fill) {
-      obj.fill(0);
-    }
+  } else if (obj instanceof ArrayBuffer) {
+    // For ArrayBuffer, create a view and fill with zeros
+    const view = new Uint8Array(obj);
+    view.fill(0);
+  } else if (obj instanceof Uint8Array || obj instanceof Int8Array || obj instanceof Uint16Array || obj instanceof Int16Array || obj instanceof Uint32Array || obj instanceof Int32Array || obj instanceof Float32Array || obj instanceof Float64Array) {
+    // For typed arrays, fill with zeros
+    obj.fill(0);
   } else if (Array.isArray(obj)) {
     // For regular arrays, overwrite each element then clear
     for (let i = 0; i < obj.length; i++) {
