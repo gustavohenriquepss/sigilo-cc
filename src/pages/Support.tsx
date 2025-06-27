@@ -93,11 +93,13 @@ const Support = () => {
               </a>, designer de produto e criativo full-stack, com a ideia de transformar uma brincadeira em algo que possa escalar, gerar impacto e talvez até virar negócio. (ou não kkkkk)
             </p>
 
-            {/* Photo placeholder */}
-            <div className="bg-black/40 rounded-xl p-6 border border-white/10 text-center">
-              <p className="text-gray-500 font-inter text-sm">
-                [Espaço reservado para sua foto]
-              </p>
+            {/* Photo */}
+            <div className="flex justify-center my-6">
+              <img 
+                src="/lovable-uploads/0ebe366d-86a0-448f-b6f4-c391d29268a9.png" 
+                alt="Gustavo Henrique" 
+                className="w-48 h-48 object-cover rounded-xl border border-white/10"
+              />
             </div>
 
             <p className="text-gray-400 font-inter text-sm leading-relaxed">
