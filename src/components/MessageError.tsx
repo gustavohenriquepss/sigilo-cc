@@ -1,0 +1,62 @@
+
+import React from 'react';
+import { Button } from '@/components/ui/button';
+import { AlertTriangle, Flame } from 'lucide-react';
+
+interface MessageErrorProps {
+  type: 'expired' | 'destroyed' | 'error';
+  onCreateNew: () => void;
+}
+
+const MessageError: React.FC<MessageErrorProps> = ({ type, onCreateNew }) => {
+  const getErrorContent = () => {
+    switch (type) {
+      case 'expired':
+        return {
+          icon: <AlertTriangle className="w-8 h-8 text-amber-400" />,
+          title: 'Mensagem Expirada',
+          description: 'Esta mensagem expirou e não pode mais ser acessada. Mensagens secretas têm prazo limitado por segurança.'
+        };
+      case 'destroyed':
+        return {
+          icon: <Flame className="w-8 h-8 text-red-400" />,
+          title: 'Mensagem Destruída',
+          description: 'Esta mensagem já foi lida e foi permanentemente destruída para manter a privacidade.'
+        };
+      case 'error':
+        return {
+          icon: <AlertTriangle className="w-8 h-8 text-red-400" />,
+          title: 'Erro de Acesso',
+          description: 'Não foi possível carregar esta mensagem. Verifique se o link está correto e completo.'
+        };
+    }
+  };
+
+  const { icon, title, description } = getErrorContent();
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-6">
+      <div className="text-center space-y-8 max-w-md">
+        <div className="flex justify-center">
+          <div className="p-4 glass-card rounded-2xl">
+            {icon}
+          </div>
+        </div>
+        <div className="space-y-4">
+          <h2 className="text-3xl font-serif font-semibold text-white">{title}</h2>
+          <p className="text-gray-400 font-inter leading-relaxed">
+            {description}
+          </p>
+        </div>
+        <Button 
+          onClick={onCreateNew} 
+          className="bg-white text-black hover:bg-gray-100 font-inter font-medium py-3 px-8 h-auto rounded-xl elegant-button"
+        >
+          Criar Nova Mensagem
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default MessageError;
