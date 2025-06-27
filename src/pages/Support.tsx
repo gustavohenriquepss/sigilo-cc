@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -27,7 +26,7 @@ const Support = () => {
   };
 
   const shareWhatsApp = () => {
-    const text = encodeURIComponent('Esse app permite enviar mensagens que desaparecem depois de lidas');
+    const text = encodeURIComponent(`Esse app permite enviar mensagens que desaparecem depois de lidas: ${window.location.origin}`);
     window.open(`https://wa.me/?text=${text}`, '_blank');
   };
 
