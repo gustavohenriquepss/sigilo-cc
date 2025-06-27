@@ -4,7 +4,7 @@ import DOMPurify from 'dompurify';
 // Input validation constants
 export const SECURITY_LIMITS = {
   MAX_MESSAGE_LENGTH: 10240, // 10KB
-  MIN_TTL: 30, // 30 seconds
+  MIN_TTL: 0, // 0 segundos (sem limite)
   MAX_TTL: 86400, // 24 hours
   MAX_VIEWS: 10,
   MIN_VIEWS: 1

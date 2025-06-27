@@ -10,7 +10,8 @@ import LinkSharing from './LinkSharing';
 
 const CreateMessage = () => {
   const [message, setMessage] = useState('');
-  const [selectedTtl, setSelectedTtl] = useState('1800'); // 30 minutes default
+  const [selectedTtl, setSelectedTtl] = useState('30'); // 30 segundos como padrão
+  const [timerEnabled, setTimerEnabled] = useState(true); // Timer ativado por padrão
   const [secretLink, setSecretLink] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -45,20 +46,24 @@ const CreateMessage = () => {
       return;
     }
 
-    // Validar TTL
-    const ttlNumber = parseInt(selectedTtl);
-    const ttlValidation = validateTTL(ttlNumber);
-    if (!ttlValidation.isValid) {
-      console.error('❌ Validação do TTL falhou:', ttlValidation.error);
-      toast({
-        title: "Erro de validação",
-        description: ttlValidation.error,
-        variant: "destructive"
-      });
-      return;
+    // Determinar TTL baseado na configuração do usuário
+    const ttlNumber = timerEnabled ? parseInt(selectedTtl) : 0;
+    
+    // Validar TTL apenas se estiver ativado
+    if (timerEnabled) {
+      const ttlValidation = validateTTL(ttlNumber);
+      if (!ttlValidation.isValid) {
+        console.error('❌ Validação do TTL falhou:', ttlValidation.error);
+        toast({
+          title: "Erro de validação",
+          description: ttlValidation.error,
+          variant: "destructive"
+        });
+        return;
+      }
     }
 
-    console.log('✅ Validações passaram - TTL:', ttlNumber, 'segundos');
+    console.log('✅ Validações passaram - TTL:', ttlNumber === 0 ? 'desativado' : `${ttlNumber} segundos`);
 
     setIsLoading(true);
     try {
@@ -142,6 +147,8 @@ const CreateMessage = () => {
             setMessage={setMessage}
             selectedTtl={selectedTtl}
             setSelectedTtl={setSelectedTtl}
+            timerEnabled={timerEnabled}
+            setTimerEnabled={setTimerEnabled}
             onGenerateLink={generateSecretLink}
             isLoading={isLoading}
           />

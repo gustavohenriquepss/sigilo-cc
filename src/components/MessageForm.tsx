@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Switch } from '@/components/ui/switch';
 import { Clock, ArrowRight } from 'lucide-react';
 
 interface MessageFormProps {
@@ -10,6 +11,8 @@ interface MessageFormProps {
   setMessage: (message: string) => void;
   selectedTtl: string;
   setSelectedTtl: (ttl: string) => void;
+  timerEnabled: boolean;
+  setTimerEnabled: (enabled: boolean) => void;
   onGenerateLink: () => void;
   isLoading: boolean;
 }
@@ -19,6 +22,8 @@ const MessageForm: React.FC<MessageFormProps> = ({
   setMessage,
   selectedTtl,
   setSelectedTtl,
+  timerEnabled,
+  setTimerEnabled,
   onGenerateLink,
   isLoading
 }) => {
@@ -44,29 +49,39 @@ const MessageForm: React.FC<MessageFormProps> = ({
       </div>
 
       <div className="glass-card rounded-2xl p-6 space-y-4">
-        <div className="flex items-center space-x-2 mb-3">
-          <Clock className="w-5 h-5 text-white" />
-          <label className="block text-white font-inter font-medium text-sm">
-            Tempo até autodestruição
-          </label>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Clock className="w-5 h-5 text-white" />
+            <label className="block text-white font-inter font-medium text-sm">
+              Tempo de autodestruição
+            </label>
+          </div>
+          <Switch
+            checked={timerEnabled}
+            onCheckedChange={setTimerEnabled}
+            className="data-[state=checked]:bg-white data-[state=unchecked]:bg-white/20"
+          />
         </div>
-        <RadioGroup value={selectedTtl} onValueChange={setSelectedTtl} className="space-y-3">
-          {ttlOptions.map((option) => (
-            <div key={option.value} className="flex items-center space-x-3">
-              <RadioGroupItem 
-                value={option.value} 
-                id={option.value} 
-                className="border-white/30 text-white data-[state=checked]:bg-white data-[state=checked]:text-black" 
-              />
-              <label 
-                htmlFor={option.value} 
-                className="text-gray-300 font-inter text-sm cursor-pointer hover:text-white transition-colors"
-              >
-                {option.label}
-              </label>
-            </div>
-          ))}
-        </RadioGroup>
+        
+        {timerEnabled && (
+          <RadioGroup value={selectedTtl} onValueChange={setSelectedTtl} className="space-y-3 mt-4">
+            {ttlOptions.map((option) => (
+              <div key={option.value} className="flex items-center space-x-3">
+                <RadioGroupItem 
+                  value={option.value} 
+                  id={option.value} 
+                  className="border-white/30 text-white data-[state=checked]:bg-white data-[state=checked]:text-black" 
+                />
+                <label 
+                  htmlFor={option.value} 
+                  className="text-gray-300 font-inter text-sm cursor-pointer hover:text-white transition-colors"
+                >
+                  {option.label}
+                </label>
+              </div>
+            ))}
+          </RadioGroup>
+        )}
       </div>
       
       <Button 

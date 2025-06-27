@@ -96,6 +96,25 @@ export function incrementViewCount(msgId: string): number {
   }
 }
 
+export function getFirstViewTime(msgId: string): number | null {
+  try {
+    const firstViewTime = localStorage.getItem(`msg_first_view_${msgId}`);
+    return firstViewTime ? parseInt(firstViewTime, 10) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function setFirstViewTime(msgId: string): number {
+  try {
+    const now = Date.now();
+    localStorage.setItem(`msg_first_view_${msgId}`, now.toString());
+    return now;
+  } catch {
+    return Date.now();
+  }
+}
+
 export function isMessageDestroyed(msgId: string): boolean {
   return sessionStorage.getItem(`msg_destroyed_${msgId}`) === 'true';
 }
@@ -104,10 +123,21 @@ export function markMessageDestroyed(msgId: string): void {
   sessionStorage.setItem(`msg_destroyed_${msgId}`, 'true');
 }
 
-export function isMessageExpired(payload: MessagePayload): boolean {
-  const now = new Date().getTime();
-  const createdAt = new Date(payload.createdAt).getTime();
-  return now > (createdAt + payload.ttl * 1000);
+export function isMessageExpired(payload: MessagePayload, msgId: string): boolean {
+  // Se TTL é 0, não há limite de tempo
+  if (payload.ttl === 0) {
+    return false;
+  }
+  
+  // Verificar se a mensagem foi visualizada pela primeira vez
+  const firstViewTime = getFirstViewTime(msgId);
+  if (!firstViewTime) {
+    // Se ainda não foi visualizada, não está expirada
+    return false;
+  }
+  
+  const now = Date.now();
+  return now > (firstViewTime + payload.ttl * 1000);
 }
 
 // Secure cleanup function
