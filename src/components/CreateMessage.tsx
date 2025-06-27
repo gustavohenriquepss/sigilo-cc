@@ -6,21 +6,27 @@ import { useToast } from '@/hooks/use-toast';
 import { generateKey, encryptMessage } from '@/utils/crypto';
 import { MessagePayload } from '@/utils/storage';
 import { Copy, Share2, MessageSquare, Sparkles, ArrowRight, Clock } from 'lucide-react';
-
 const CreateMessage = () => {
   const [message, setMessage] = useState('');
   const [selectedTtl, setSelectedTtl] = useState('1800'); // 30 minutes default
   const [secretLink, setSecretLink] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
-
-  const ttlOptions = [
-    { value: '30', label: '30 segundos' },
-    { value: '60', label: '1 minuto' },
-    { value: '1800', label: '30 minutos' },
-    { value: '3600', label: '1 hora' }
-  ];
-
+  const {
+    toast
+  } = useToast();
+  const ttlOptions = [{
+    value: '30',
+    label: '30 segundos'
+  }, {
+    value: '60',
+    label: '1 minuto'
+  }, {
+    value: '1800',
+    label: '30 minutos'
+  }, {
+    value: '3600',
+    label: '1 hora'
+  }];
   const generateSecretLink = async () => {
     if (!message.trim()) {
       toast({
@@ -30,7 +36,6 @@ const CreateMessage = () => {
       });
       return;
     }
-
     setIsLoading(true);
     try {
       const key = await generateKey();
@@ -40,10 +45,8 @@ const CreateMessage = () => {
         ttl: parseInt(selectedTtl),
         maxViews: 1
       };
-
       const ciphertext = await encryptMessage(JSON.stringify(payload), key);
       const url = `${window.location.origin}${window.location.pathname}#msg=${ciphertext}&key=${key}`;
-      
       setSecretLink(url);
       toast({
         title: "Link criado com sucesso",
@@ -58,7 +61,6 @@ const CreateMessage = () => {
     }
     setIsLoading(false);
   };
-
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(secretLink);
@@ -74,25 +76,20 @@ const CreateMessage = () => {
       });
     }
   };
-
   const shareWhatsApp = () => {
     const text = encodeURIComponent(`Você recebeu uma mensagem secreta: ${secretLink}`);
     window.open(`https://wa.me/?text=${text}`, '_blank');
   };
-
   const shareTwitter = () => {
     const text = encodeURIComponent(`Você recebeu uma mensagem secreta:`);
     const url = encodeURIComponent(secretLink);
     window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
   };
-
   const createNewMessage = () => {
     setMessage('');
     setSecretLink('');
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-6">
+  return <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-6">
       <div className="w-full max-w-lg space-y-8">
         <div className="text-center space-y-4">
           <div className="flex justify-center mb-6">
@@ -103,23 +100,15 @@ const CreateMessage = () => {
           <h1 className="text-4xl font-serif font-semibold text-white text-glow">
             Mensagens Secretas
           </h1>
-          <p className="text-gray-400 font-inter text-lg leading-relaxed max-w-md mx-auto">
-            Crie mensagens criptografadas que se autodestroem após serem lidas
-          </p>
+          <p className="text-gray-400 font-inter text-lg leading-relaxed max-w-md mx-auto">Compartilhe segredos que se autodestroem. Sem login, sem rastros.</p>
         </div>
 
-        {!secretLink ? (
-          <div className="space-y-6">
+        {!secretLink ? <div className="space-y-6">
             <div className="glass-card rounded-2xl p-6 space-y-4">
               <label className="block text-white font-inter font-medium text-sm">
                 Sua mensagem secreta
               </label>
-              <Textarea
-                placeholder="Digite aqui a mensagem que deseja compartilhar de forma segura..."
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                className="min-h-[120px] bg-white/5 border-white/20 text-white placeholder-gray-500 resize-none font-inter rounded-xl focus:ring-2 focus:ring-white/30 focus:border-white/30"
-              />
+              <Textarea placeholder="Digite aqui a mensagem que deseja compartilhar de forma segura..." value={message} onChange={e => setMessage(e.target.value)} className="min-h-[120px] bg-white/5 border-white/20 text-white placeholder-gray-500 resize-none font-inter rounded-xl focus:ring-2 focus:ring-white/30 focus:border-white/30" />
             </div>
 
             <div className="glass-card rounded-2xl p-6 space-y-4">
@@ -130,44 +119,25 @@ const CreateMessage = () => {
                 </label>
               </div>
               <RadioGroup value={selectedTtl} onValueChange={setSelectedTtl} className="space-y-3">
-                {ttlOptions.map((option) => (
-                  <div key={option.value} className="flex items-center space-x-3">
-                    <RadioGroupItem
-                      value={option.value}
-                      id={option.value}
-                      className="border-white/30 text-white data-[state=checked]:bg-white data-[state=checked]:text-black"
-                    />
-                    <label
-                      htmlFor={option.value}
-                      className="text-gray-300 font-inter text-sm cursor-pointer hover:text-white transition-colors"
-                    >
+                {ttlOptions.map(option => <div key={option.value} className="flex items-center space-x-3">
+                    <RadioGroupItem value={option.value} id={option.value} className="border-white/30 text-white data-[state=checked]:bg-white data-[state=checked]:text-black" />
+                    <label htmlFor={option.value} className="text-gray-300 font-inter text-sm cursor-pointer hover:text-white transition-colors">
                       {option.label}
                     </label>
-                  </div>
-                ))}
+                  </div>)}
               </RadioGroup>
             </div>
             
-            <Button
-              onClick={generateSecretLink}
-              disabled={isLoading}
-              className="w-full bg-white text-black hover:bg-gray-100 font-inter font-medium py-3 h-auto rounded-xl elegant-button"
-            >
-              {isLoading ? (
-                <>
+            <Button onClick={generateSecretLink} disabled={isLoading} className="w-full bg-white text-black hover:bg-gray-100 font-inter font-medium py-3 h-auto rounded-xl elegant-button">
+              {isLoading ? <>
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-black mr-2"></div>
                   Gerando link...
-                </>
-              ) : (
-                <>
+                </> : <>
                   Gerar Link Secreto
                   <ArrowRight className="w-4 h-4 ml-2" />
-                </>
-              )}
+                </>}
             </Button>
-          </div>
-        ) : (
-          <div className="space-y-6">
+          </div> : <div className="space-y-6">
             <div className="glass-card rounded-2xl p-6 space-y-4">
               <div className="flex items-center space-x-2 mb-3">
                 <MessageSquare className="w-5 h-5 text-green-400" />
@@ -180,47 +150,29 @@ const CreateMessage = () => {
             </div>
             
             <div className="space-y-3">
-              <Button
-                onClick={copyToClipboard}
-                className="w-full bg-white text-black hover:bg-gray-100 font-inter font-medium py-3 h-auto rounded-xl elegant-button"
-              >
+              <Button onClick={copyToClipboard} className="w-full bg-white text-black hover:bg-gray-100 font-inter font-medium py-3 h-auto rounded-xl elegant-button">
                 <Copy className="w-4 h-4 mr-2" />
                 Copiar Link
               </Button>
               
               <div className="grid grid-cols-2 gap-3">
-                <Button
-                  onClick={shareWhatsApp}
-                  variant="outline"
-                  className="bg-transparent border-white/20 text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button"
-                >
+                <Button onClick={shareWhatsApp} variant="outline" className="bg-transparent border-white/20 text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button">
                   <Share2 className="w-4 h-4 mr-2" />
                   WhatsApp
                 </Button>
                 
-                <Button
-                  onClick={shareTwitter}
-                  variant="outline"
-                  className="bg-transparent border-white/20 text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button"
-                >
+                <Button onClick={shareTwitter} variant="outline" className="bg-transparent border-white/20 text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button">
                   <Share2 className="w-4 h-4 mr-2" />
                   Twitter
                 </Button>
               </div>
             </div>
 
-            <Button
-              onClick={createNewMessage}
-              variant="ghost"
-              className="w-full text-gray-400 hover:text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button"
-            >
+            <Button onClick={createNewMessage} variant="ghost" className="w-full text-gray-400 hover:text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button">
               Criar Nova Mensagem
             </Button>
-          </div>
-        )}
+          </div>}
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default CreateMessage;
