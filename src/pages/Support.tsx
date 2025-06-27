@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -94,11 +93,11 @@ const Support = () => {
             </p>
 
             {/* Photo */}
-            <div className="flex justify-center my-6">
+            <div className="my-6">
               <img 
                 src="/lovable-uploads/0ebe366d-86a0-448f-b6f4-c391d29268a9.png" 
                 alt="Gustavo Henrique" 
-                className="w-48 h-48 object-cover rounded-xl border border-white/10"
+                className="w-full max-w-md mx-auto object-cover rounded-xl border border-white/10"
               />
             </div>
 
