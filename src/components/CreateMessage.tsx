@@ -97,9 +97,7 @@ const CreateMessage = () => {
               <Sparkles className="w-8 h-8 text-white" />
             </div>
           </div>
-          <h1 className="text-4xl font-serif font-semibold text-white text-glow">
-            Mensagens Secretas
-          </h1>
+          <h1 className="text-4xl font-serif font-semibold text-white text-glow">Envie mensagens secretas</h1>
           <p className="text-gray-400 font-inter text-lg leading-relaxed max-w-md mx-auto">Compartilhe segredos que se autodestroem. Sem login, sem rastros.</p>
         </div>
 
