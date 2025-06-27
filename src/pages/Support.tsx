@@ -1,26 +1,14 @@
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Heart, Copy, ArrowLeft } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import QRCode from 'qrcode';
 
 const Support = () => {
   const { toast } = useToast();
-  const [qrCodeUrl, setQrCodeUrl] = useState('');
   const pixKey = 'gustavohenriquepss@gmail.com';
-
-  useEffect(() => {
-    // Generate QR Code for Pix
-    QRCode.toDataURL(pixKey, {
-      width: 200,
-      margin: 2,
-    })
-      .then(url => setQrCodeUrl(url))
-      .catch(err => console.error('Erro ao gerar QR Code:', err));
-  }, []);
 
   const copyAppLink = async () => {
     try {
@@ -141,11 +129,13 @@ const Support = () => {
               </div>
               
               {/* QR Code */}
-              {qrCodeUrl && (
-                <div className="bg-white p-4 rounded-xl">
-                  <img src={qrCodeUrl} alt="QR Code Pix" className="w-48 h-48" />
-                </div>
-              )}
+              <div className="bg-white p-4 rounded-xl">
+                <img 
+                  src="/lovable-uploads/e0518b74-c202-4ad8-a63e-3e82dda3a500.png" 
+                  alt="QR Code Pix" 
+                  className="w-48 h-48" 
+                />
+              </div>
             </div>
           </div>
 
