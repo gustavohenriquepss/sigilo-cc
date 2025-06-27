@@ -47,7 +47,7 @@ const Support = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black p-6">
+    <div className="min-h-screen p-6">
       <div className="max-w-2xl mx-auto space-y-8 py-8">
         {/* Back button */}
         <Link to="/" className="inline-flex items-center text-gray-400 hover:text-white transition-colors">

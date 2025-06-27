@@ -1,9 +1,8 @@
-
 import React from 'react';
 
 const MessageLoader: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-6">
+    <div className="min-h-screen flex items-center justify-center p-6">
       <div className="text-center space-y-6">
         <div className="flex justify-center">
           <div className="p-4 glass-card rounded-2xl">

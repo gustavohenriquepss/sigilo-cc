@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, Flame, Heart } from 'lucide-react';
@@ -36,7 +35,7 @@ const MessageError: React.FC<MessageErrorProps> = ({ type, onCreateNew }) => {
   const { icon, title, description } = getErrorContent();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-6">
+    <div className="min-h-screen flex items-center justify-center p-6">
       <div className="text-center space-y-8 max-w-md">
         <div className="flex justify-center">
           <div className="p-4 glass-card rounded-2xl">

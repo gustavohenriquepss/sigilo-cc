@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -91,7 +92,7 @@ const CreateMessage = () => {
     setMessage('');
     setSecretLink('');
   };
-  return <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-6">
+  return <div className="min-h-screen flex items-center justify-center p-6">
       <div className="w-full max-w-lg space-y-8">
         <div className="text-center space-y-4">
           <div className="flex justify-center mb-6">
