@@ -1,13 +1,20 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Heart, Copy, ArrowLeft } from 'lucide-react';
+import { Heart, Copy, ArrowLeft, User } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const Support = () => {
   const { toast } = useToast();
   const pixKey = 'gustavohenriquepss@gmail.com';
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
+
+  const handleImageError = (imageName: string) => {
+    console.log(`Failed to load image: ${imageName}`);
+    setImageErrors(prev => ({ ...prev, [imageName]: true }));
+  };
 
   const copyAppLink = async () => {
     try {
@@ -80,13 +87,21 @@ const Support = () => {
               </a>, designer de produto e criativo full-stack, com a ideia de transformar uma brincadeira em algo que possa escalar, gerar impacto e talvez até virar negócio. (ou não kkkkk)
             </p>
 
-            {/* Photo */}
+            {/* Photo with fallback */}
             <div className="flex justify-center my-6">
-              <img 
-                src="/lovable-uploads/0ebe366d-86a0-448f-b6f4-c391d29268a9.png" 
-                alt="Gustavo Henrique" 
-                className="w-48 h-48 object-cover rounded-xl border border-white/10"
-              />
+              {imageErrors['profile'] ? (
+                <div className="w-48 h-48 bg-gray-800 rounded-xl border border-white/10 flex items-center justify-center">
+                  <User className="w-16 h-16 text-gray-400" />
+                </div>
+              ) : (
+                <img 
+                  src="/lovable-uploads/0ebe366d-86a0-448f-b6f4-c391d29268a9.png" 
+                  alt="Gustavo Henrique" 
+                  className="w-48 h-48 object-cover rounded-xl border border-white/10"
+                  onError={() => handleImageError('profile')}
+                  onLoad={() => console.log('Profile image loaded successfully')}
+                />
+              )}
             </div>
 
             <p className="text-gray-400 font-inter text-sm leading-relaxed">
@@ -127,13 +142,21 @@ const Support = () => {
                 </div>
               </div>
               
-              {/* QR Code */}
+              {/* QR Code with fallback */}
               <div className="bg-white p-4 rounded-xl">
-                <img 
-                  src="/lovable-uploads/e0518b74-c202-4ad8-a63e-3e82dda3a500.png" 
-                  alt="QR Code Pix" 
-                  className="w-48 h-48" 
-                />
+                {imageErrors['qrcode'] ? (
+                  <div className="w-48 h-48 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <p className="text-gray-600 text-sm text-center">QR Code<br />indisponível</p>
+                  </div>
+                ) : (
+                  <img 
+                    src="/lovable-uploads/e0518b74-c202-4ad8-a63e-3e82dda3a500.png" 
+                    alt="QR Code Pix" 
+                    className="w-48 h-48" 
+                    onError={() => handleImageError('qrcode')}
+                    onLoad={() => console.log('QR Code loaded successfully')}
+                  />
+                )}
               </div>
             </div>
           </div>
