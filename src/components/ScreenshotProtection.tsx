@@ -15,6 +15,50 @@ const ScreenshotProtection: React.FC<ScreenshotProtectionProps> = ({ children, m
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Add global styles
+    const style = document.createElement('style');
+    style.textContent = `
+      @media print {
+        * {
+          visibility: hidden !important;
+        }
+        body::after {
+          content: "🔒 Conteúdo protegido - Impressão não permitida";
+          visibility: visible !important;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 24px;
+          font-weight: bold;
+          color: #000;
+        }
+      }
+      
+      .protected-content::before {
+        content: attr(data-watermark);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        opacity: 0.01;
+        font-size: 1px;
+        z-index: -1;
+      }
+      
+      .no-select {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+    `;
+    document.head.appendChild(style);
+
     let devToolsOpen = false;
     const threshold = 160;
 
@@ -130,6 +174,7 @@ const ScreenshotProtection: React.FC<ScreenshotProtectionProps> = ({ children, m
 
     // Cleanup
     return () => {
+      document.head.removeChild(style);
       document.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       document.removeEventListener('contextmenu', handleContextMenu);
@@ -161,69 +206,23 @@ const ScreenshotProtection: React.FC<ScreenshotProtectionProps> = ({ children, m
   };
 
   return (
-    <>
-      {/* CSS para proteção contra impressão */}
-      <style jsx global>{`
-        @media print {
-          * {
-            visibility: hidden !important;
-          }
-          body::after {
-            content: "🔒 Conteúdo protegido - Impressão não permitida";
-            visibility: visible !important;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 24px;
-            font-weight: bold;
-            color: #000;
-          }
-        }
-        
-        /* Watermark invisível */
-        .protected-content::before {
-          content: attr(data-watermark);
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          pointer-events: none;
-          opacity: 0.01;
-          font-size: 1px;
-          z-index: -1;
-        }
-        
-        /* Desabilitar seleção */
-        .no-select {
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
-          -webkit-touch-callout: none;
-          -webkit-tap-highlight-color: transparent;
-        }
-      `}</style>
-
-      <div 
-        ref={containerRef}
-        className={`protected-content no-select relative ${isBlurred ? 'blur-sm' : ''}`}
-        data-watermark={`protected-${messageId}-${Date.now()}`}
-      >
-        {children}
-        
-        {/* Overlay de aviso de segurança */}
-        {showWarning && (
-          <div className="absolute inset-0 bg-red-500/20 backdrop-blur-md flex items-center justify-center z-50 rounded-2xl">
-            <div className="bg-red-500 text-white p-4 rounded-xl flex items-center space-x-2 animate-pulse">
-              <AlertTriangle className="w-6 h-6" />
-              <span className="font-medium">Ação de segurança detectada!</span>
-            </div>
+    <div 
+      ref={containerRef}
+      className={`protected-content no-select relative ${isBlurred ? 'blur-sm' : ''}`}
+      data-watermark={`protected-${messageId}-${Date.now()}`}
+    >
+      {children}
+      
+      {/* Overlay de aviso de segurança */}
+      {showWarning && (
+        <div className="absolute inset-0 bg-red-500/20 backdrop-blur-md flex items-center justify-center z-50 rounded-2xl">
+          <div className="bg-red-500 text-white p-4 rounded-xl flex items-center space-x-2 animate-pulse">
+            <AlertTriangle className="w-6 h-6" />
+            <span className="font-medium">Ação de segurança detectada!</span>
           </div>
-        )}
-      </div>
-    </>
+        </div>
+      )}
+    </div>
   );
 };
 
