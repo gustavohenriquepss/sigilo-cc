@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -6,19 +5,19 @@ import { Heart, Copy, ArrowLeft } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import QRCode from 'qrcode';
-
 const Support = () => {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [qrCodeUrl, setQrCodeUrl] = useState('');
   const pixKey = 'contatogustavohpss@gmail.com';
-
   useEffect(() => {
     // Generate QR Code for Pix
-    QRCode.toDataURL(pixKey, { width: 200, margin: 2 })
-      .then(url => setQrCodeUrl(url))
-      .catch(err => console.error('Erro ao gerar QR Code:', err));
+    QRCode.toDataURL(pixKey, {
+      width: 200,
+      margin: 2
+    }).then(url => setQrCodeUrl(url)).catch(err => console.error('Erro ao gerar QR Code:', err));
   }, []);
-
   const copyAppLink = async () => {
     try {
       await navigator.clipboard.writeText(window.location.origin);
@@ -34,12 +33,10 @@ const Support = () => {
       });
     }
   };
-
   const shareWhatsApp = () => {
     const text = encodeURIComponent('Esse app permite enviar mensagens que desaparecem depois de lidas');
     window.open(`https://wa.me/?text=${text}`, '_blank');
   };
-
   const copyPixKey = async () => {
     try {
       await navigator.clipboard.writeText(pixKey);
@@ -55,9 +52,7 @@ const Support = () => {
       });
     }
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black p-6">
+  return <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black p-6">
       <div className="max-w-2xl mx-auto space-y-8 py-8">
         {/* Back button */}
         <Link to="/" className="inline-flex items-center text-gray-400 hover:text-white transition-colors">
@@ -80,17 +75,10 @@ const Support = () => {
         {/* Content */}
         <div className="space-y-6">
           <div className="glass-card rounded-2xl p-6 space-y-4">
-            <p className="text-gray-300 font-inter text-lg leading-relaxed">
-              Este app é um experimento independente sobre mensagens temporárias, anonimato e novas formas de comunicação digital.
-            </p>
+            <p className="text-gray-300 font-inter text-lg leading-relaxed">O Sigilo é um experimento independente sobre mensagens temporárias, anonimato e novas formas de comunicação digital.</p>
             
             <p className="text-gray-300 font-inter text-lg leading-relaxed">
-              Foi criado em algumas horinhas por mim, <a 
-                href="https://linkedin.com/in/gustavohpss" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-white underline hover:text-gray-200 transition-colors"
-              >
+              Foi criado em algumas horinhas por mim, <a href="https://linkedin.com/in/gustavohpss" target="_blank" rel="noopener noreferrer" className="text-white underline hover:text-gray-200 transition-colors">
                 Gustavo Henrique
               </a>, designer de produto e criativo full-stack, com a ideia de transformar uma brincadeira em algo que possa escalar, gerar impacto e talvez até virar negócio. (ou não kkkkk)
             </p>
@@ -120,12 +108,7 @@ const Support = () => {
                   <p className="text-xs text-gray-400 font-inter mb-2">Chave Pix:</p>
                   <div className="flex items-center justify-between">
                     <p className="text-sm text-green-400 font-mono">{pixKey}</p>
-                    <Button
-                      onClick={copyPixKey}
-                      size="sm"
-                      variant="outline"
-                      className="bg-transparent border-white/20 text-white hover:bg-white/5 ml-2"
-                    >
+                    <Button onClick={copyPixKey} size="sm" variant="outline" className="bg-transparent border-white/20 text-white hover:bg-white/5 ml-2">
                       <Copy className="w-3 h-3" />
                     </Button>
                   </div>
@@ -140,11 +123,9 @@ const Support = () => {
               </div>
               
               {/* QR Code */}
-              {qrCodeUrl && (
-                <div className="bg-white p-4 rounded-xl">
+              {qrCodeUrl && <div className="bg-white p-4 rounded-xl">
                   <img src={qrCodeUrl} alt="QR Code Pix" className="w-48 h-48" />
-                </div>
-              )}
+                </div>}
             </div>
           </div>
 
@@ -157,20 +138,12 @@ const Support = () => {
             </Link>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <Button 
-                onClick={shareWhatsApp} 
-                variant="outline" 
-                className="bg-transparent border-white/20 text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button"
-              >
+              <Button onClick={shareWhatsApp} variant="outline" className="bg-transparent border-white/20 text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button">
                 <FaWhatsapp className="w-4 h-4 mr-2" />
                 Compartilhar no WhatsApp
               </Button>
               
-              <Button 
-                onClick={copyAppLink} 
-                variant="outline" 
-                className="bg-transparent border-white/20 text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button"
-              >
+              <Button onClick={copyAppLink} variant="outline" className="bg-transparent border-white/20 text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button">
                 <Copy className="w-4 h-4 mr-2" />
                 Copiar link do app
               </Button>
@@ -178,8 +151,6 @@ const Support = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Support;
