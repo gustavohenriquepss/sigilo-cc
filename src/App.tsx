@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Support from "./pages/Support";
 import NotFound from "./pages/NotFound";
+import SupportBanner from "./components/SupportBanner";
 
 const queryClient = new QueryClient();
 
@@ -16,12 +17,15 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/support" element={<Support />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <SupportBanner />
+        <div className="pt-10"> {/* Add padding to account for fixed banner */}
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/support" element={<Support />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

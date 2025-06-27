@@ -5,10 +5,9 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import { generateKey, encryptMessage } from '@/utils/crypto';
 import { MessagePayload } from '@/utils/storage';
-import { Copy, MessageSquare, Sparkles, ArrowRight, Clock, Heart } from 'lucide-react';
+import { Copy, MessageSquare, Sparkles, ArrowRight, Clock } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
-import { Link } from 'react-router-dom';
 
 const CreateMessage = () => {
   const [message, setMessage] = useState('');
@@ -160,14 +159,6 @@ const CreateMessage = () => {
                 </>
               )}
             </Button>
-
-            {/* Support button */}
-            <Link to="/support">
-              <Button variant="ghost" className="w-full text-gray-400 hover:text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button my-[8px]">
-                <Heart className="w-4 h-4 mr-2" />
-                Apoie esse projeto
-              </Button>
-            </Link>
           </div> : <div className="space-y-6">
             <div className="glass-card rounded-2xl p-6 space-y-4">
               <div className="flex items-center space-x-2 mb-3">
@@ -217,14 +208,6 @@ const CreateMessage = () => {
             >
               Criar Nova Mensagem
             </Button>
-
-            {/* Support button */}
-            <Link to="/support">
-              <Button variant="ghost" className="w-full text-gray-400 hover:text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button">
-                <Heart className="w-4 h-4 mr-2" />
-                Apoie esse projeto
-              </Button>
-            </Link>
           </div>}
       </div>
     </div>;
