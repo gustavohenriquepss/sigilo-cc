@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { AlertTriangle, Flame } from 'lucide-react';
+import { AlertTriangle, Flame, Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface MessageErrorProps {
   type: 'expired' | 'destroyed' | 'error';
@@ -48,12 +49,24 @@ const MessageError: React.FC<MessageErrorProps> = ({ type, onCreateNew }) => {
             {description}
           </p>
         </div>
-        <Button 
-          onClick={onCreateNew} 
-          className="bg-white text-black hover:bg-gray-100 font-inter font-medium py-3 px-8 h-auto rounded-xl elegant-button"
-        >
-          Criar Nova Mensagem
-        </Button>
+        <div className="space-y-3">
+          <Button 
+            onClick={onCreateNew} 
+            className="w-full bg-white text-black hover:bg-gray-100 font-inter font-medium py-3 px-8 h-auto rounded-xl elegant-button"
+          >
+            Criar Nova Mensagem
+          </Button>
+          
+          <Link to="/support">
+            <Button 
+              variant="ghost"
+              className="w-full text-gray-400 hover:text-white hover:bg-white/5 font-inter font-medium py-3 h-auto rounded-xl elegant-button"
+            >
+              <Heart className="w-4 h-4 mr-2" />
+              Apoie esse projeto
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );
